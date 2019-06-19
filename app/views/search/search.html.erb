@@ -1,0 +1,30 @@
+<% @search.each do |search|%>
+<div id="post_content">
+<h1 class="title">
+    <%=search.title%>
+</h1>
+
+<p class="date">
+    Submitted <%=time_ago_in_words(search.created_at)%> Ago
+    <% if user_signed_in? %>
+    | <%=link_to "Edit", edit_post_path(search)%>
+    | <%=link_to "Delete", post_path(search), method:"delete", data: {confirm: 'Are you sure?'}%>
+    <% end %>
+</p>
+
+<p class="body">
+    <%=search.body%>
+</p>
+
+<div id="comments">
+    <h2><%=search.comments.count%> Comments</h2>
+    <div class="pane">
+        <% search.comments.each do |comment| %>
+            <%= render "/comments/comment", comment:comment %>
+        <% end %>
+    </div>
+    <h3>Add a comment:</h3>
+    <%=render "comments/form" %>
+</div>
+</div>
+<% end %>
